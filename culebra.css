@@ -1,0 +1,395 @@
+/* ==========================================================
+   CULEBRA X  ·  Estilo Tron / Gamer
+   Autor del juego: Anthony Regalado
+   ========================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap");
+
+/* ---------- Variables de diseño ---------- */
+:root {
+    --fondo: #02060d;
+    --panel: rgba(0, 20, 32, 0.72);
+    --cian: #00f0ff;
+    --cian-suave: rgba(0, 240, 255, 0.35);
+    --cian-tenue: rgba(0, 240, 255, 0.12);
+    --naranja: #ff7a1a;
+    --naranja-suave: rgba(255, 122, 26, 0.4);
+    --texto: #d8fbff;
+    --texto-apagado: #6fa9b3;
+
+    --fuente-titulo: "Orbitron", "Segoe UI", Arial, sans-serif;
+    --fuente-ui: "Rajdhani", "Segoe UI", Arial, sans-serif;
+
+    --lado-juego: min(500px, 92vw);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    min-height: 100%;
+    background: var(--fondo);
+}
+
+/* ---------- Cuerpo y fondo (rejilla en perspectiva) ---------- */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    padding: 28px 16px 40px;
+    position: relative;
+    overflow-x: hidden;
+    font-family: var(--fuente-ui);
+    font-size: 1.1rem;
+    color: var(--texto);
+    text-align: center;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(0, 240, 255, 0.16), transparent 55%),
+        var(--fondo);
+}
+
+/* Suelo de rejilla que avanza hacia el horizonte */
+body::before {
+    content: "";
+    position: fixed;
+    left: -50%;
+    bottom: 0;
+    width: 200%;
+    height: 60%;
+    z-index: 0;
+    background-image:
+        linear-gradient(var(--cian-suave) 1px, transparent 1px),
+        linear-gradient(90deg, var(--cian-suave) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(420px) rotateX(62deg);
+    transform-origin: bottom center;
+    mask-image: linear-gradient(to top, #000 10%, transparent 85%);
+    -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%);
+    animation: avanzar-rejilla 3.2s linear infinite;
+    pointer-events: none;
+}
+
+/* Viñeta oscura en los bordes */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.75) 100%);
+    pointer-events: none;
+}
+
+header,
+main {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- Encabezado ---------- */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+h1 {
+    font-family: var(--fuente-titulo);
+    font-weight: 900;
+    font-size: clamp(2rem, 7vw, 3.6rem);
+    letter-spacing: 0.28em;
+    padding-left: 0.28em; /* compensa el espaciado para centrar */
+    color: #eaffff;
+    text-shadow:
+        0 0 4px #fff,
+        0 0 12px var(--cian),
+        0 0 28px var(--cian),
+        0 0 60px rgba(0, 240, 255, 0.6);
+    animation: encendido 1.6s ease-out both;
+}
+
+header p {
+    font-family: var(--fuente-ui);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+    color: var(--texto-apagado);
+    padding: 4px 18px;
+    border-top: 1px solid var(--cian-suave);
+    border-bottom: 1px solid var(--cian-suave);
+}
+
+/* ---------- Contenedor principal ---------- */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    width: 100%;
+}
+
+/* ---------- Panel de información (HUD) ---------- */
+.panel {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    width: var(--lado-juego);
+}
+
+.panel > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 12px;
+    background: var(--panel);
+    border: 1px solid var(--cian);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    box-shadow: inset 0 0 18px var(--cian-tenue);
+    backdrop-filter: blur(4px);
+}
+
+.panel span:first-child {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--texto-apagado);
+}
+
+.panel span:last-child {
+    font-family: var(--fuente-titulo);
+    font-weight: 700;
+    font-size: 1.9rem;
+    color: var(--cian);
+    text-shadow: 0 0 10px var(--cian);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Tablero ---------- */
+.contenedor-juego {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+#areaJuego {
+    display: block;
+    width: var(--lado-juego);
+    height: var(--lado-juego);
+    background:
+        linear-gradient(var(--cian-tenue) 1px, transparent 1px),
+        linear-gradient(90deg, var(--cian-tenue) 1px, transparent 1px),
+        #01090f;
+    background-size: 20px 20px;
+    border: 2px solid var(--cian);
+    border-radius: 2px;
+    box-shadow:
+        0 0 8px var(--cian),
+        0 0 28px var(--cian-suave),
+        0 0 70px rgba(0, 240, 255, 0.18),
+        inset 0 0 30px rgba(0, 240, 255, 0.18);
+    animation: pulso-borde 3.4s ease-in-out infinite;
+}
+
+/* Mensaje de estado bajo el tablero */
+#mensaje {
+    min-height: 1.6em;
+    font-family: var(--fuente-titulo);
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--naranja);
+    text-shadow: 0 0 8px var(--naranja-suave);
+    animation: parpadeo 1.8s steps(2, jump-none) infinite;
+}
+
+/* ---------- Botones: base compartida ---------- */
+button {
+    position: relative;
+    font-family: var(--fuente-titulo);
+    font-weight: 700;
+    color: var(--cian);
+    background: rgba(0, 240, 255, 0.06);
+    border: 1px solid var(--cian);
+    cursor: pointer;
+    text-shadow: 0 0 8px var(--cian-suave);
+    box-shadow: 0 0 10px var(--cian-tenue), inset 0 0 10px var(--cian-tenue);
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.1s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+button:hover {
+    color: #021018;
+    background: var(--cian);
+    text-shadow: none;
+    box-shadow: 0 0 14px var(--cian), 0 0 40px var(--cian-suave);
+}
+
+button:active {
+    transform: scale(0.93);
+}
+
+button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+/* ---------- Controles direccionales (cruceta) ---------- */
+.controles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.controles > div {
+    display: flex;
+    gap: 8px;
+}
+
+.controles button {
+    width: 64px;
+    height: 64px;
+    font-size: 1.6rem;
+    line-height: 1;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* ---------- Botones de acción ---------- */
+.acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+}
+
+.acciones button {
+    min-width: 140px;
+    padding: 14px 26px;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+}
+
+/* Reiniciar en naranja (estilo Clu) para diferenciarlo */
+.acciones button:last-child {
+    color: var(--naranja);
+    border-color: var(--naranja);
+    background: rgba(255, 122, 26, 0.06);
+    text-shadow: 0 0 8px var(--naranja-suave);
+    box-shadow: 0 0 10px rgba(255, 122, 26, 0.12), inset 0 0 10px rgba(255, 122, 26, 0.12);
+}
+
+.acciones button:last-child:hover {
+    color: #1a0a00;
+    background: var(--naranja);
+    box-shadow: 0 0 14px var(--naranja), 0 0 40px var(--naranja-suave);
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes avanzar-rejilla {
+    from { background-position: 0 0; }
+    to   { background-position: 0 60px; }
+}
+
+@keyframes pulso-borde {
+    0%, 100% {
+        box-shadow:
+            0 0 8px var(--cian),
+            0 0 28px var(--cian-suave),
+            0 0 70px rgba(0, 240, 255, 0.18),
+            inset 0 0 30px rgba(0, 240, 255, 0.18);
+    }
+    50% {
+        box-shadow:
+            0 0 12px var(--cian),
+            0 0 40px rgba(0, 240, 255, 0.55),
+            0 0 95px rgba(0, 240, 255, 0.28),
+            inset 0 0 40px rgba(0, 240, 255, 0.26);
+    }
+}
+
+@keyframes encendido {
+    0%   { opacity: 0; }
+    8%   { opacity: 1; }
+    12%  { opacity: 0.2; }
+    20%  { opacity: 1; }
+    26%  { opacity: 0.4; }
+    34%  { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+@keyframes parpadeo {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.45; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+    body {
+        gap: 16px;
+        padding-top: 18px;
+    }
+
+    .panel span:last-child {
+        font-size: 1.5rem;
+    }
+
+    .controles button {
+        width: 58px;
+        height: 58px;
+    }
+
+    .acciones button {
+        min-width: 120px;
+        padding: 12px 18px;
+    }
+}
+
+/* ---------- Accesibilidad: reducir movimiento ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ---------- Ajustes para celulares y pantallas táctiles ---------- */
+
+/* El canvas no debe desplazar ni hacer zoom de la página al deslizar el dedo */
+#areaJuego {
+    touch-action: none;
+}
+
+/* Evita el zoom por doble toque en los botones */
+button {
+    touch-action: manipulation;
+}
+
+/* En pantallas táctiles, botones de dirección más grandes y cómodos */
+@media (pointer: coarse) {
+    .controles button {
+        width: 76px;
+        height: 76px;
+        font-size: 1.9rem;
+    }
+}

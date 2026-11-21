@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Culebra X</title>
+
+    <link rel="stylesheet" href="culebra.css">
+</head>
+
+<body onload="iniciarJuego()">
+
+    <header>
+        <h1>CULEBRA X</h1>
+        <p>Autor: ANTHONY REGALADO</p>
+    </header>
+
+    <main>
+
+        <!-- Panel de información -->
+        <section class="panel">
+
+            <div>
+                <span>Puntos:</span>
+                <span id="puntos">0</span>
+            </div>
+
+            <div>
+                <span>Tiempo:</span>
+                <span id="tiempo">0</span>
+            </div>
+
+        </section>
+
+        <!-- Tablero del videojuego -->
+        <section class="contenedor-juego">
+
+            <canvas id="areaJuego" width="500" height="500">
+                Tu navegador no soporta Canvas.
+            </canvas>
+
+            <p id="mensaje">Presiona iniciar para jugar</p>
+
+        </section>
+
+        <!-- Controles -->
+        <section class="controles">
+
+            <button onclick="moverArriba()">⬆</button>
+
+            <div>
+                <button onclick="moverIzquierda()">⬅</button>
+                <button onclick="moverAbajo()">⬇</button>
+                <button onclick="moverDerecha()">➡</button>
+            </div>
+
+        </section>
+
+        <!-- Botones del juego -->
+        <section class="acciones">
+
+            <button onclick="iniciarJuego()">INICIAR</button>
+
+            <button onclick="pausarJuego()">PAUSAR</button>
+
+            <button onclick="reiniciarJuego()">REINICIAR</button>
+
+        </section>
+
+    </main>
+
+    <!-- Archivos JavaScript -->
+    <script src="utilitarios.js"></script>
+    <script src="culebra.js"></script>
+
+</body>
+</html>
