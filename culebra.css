@@ -7,15 +7,19 @@
 
 /* ---------- Variables de diseño ---------- */
 :root {
+    /* ---- Colores base: culebra.js los cambia en cada "mundo" (paleta) ---- */
     --fondo: #02060d;
-    --panel: rgba(0, 20, 32, 0.72);
-    --cian: #00f0ff;
-    --cian-suave: rgba(0, 240, 255, 0.35);
-    --cian-tenue: rgba(0, 240, 255, 0.12);
-    --naranja: #ff7a1a;
-    --naranja-suave: rgba(255, 122, 26, 0.4);
+    --fondo-canvas: #01090f;
+    --cian: #00f0ff;            /* color principal (serpiente, bordes, botones) */
+    --naranja: #ff7a1a;         /* color de acento (REINICIAR, mensajes) */
     --texto: #d8fbff;
     --texto-apagado: #6fa9b3;
+
+    /* ---- Derivados: se recalculan solos cuando cambian los de arriba ---- */
+    --panel: color-mix(in srgb, var(--cian) 6%, rgba(0, 12, 20, 0.78));
+    --cian-suave: color-mix(in srgb, var(--cian) 35%, transparent);
+    --cian-tenue: color-mix(in srgb, var(--cian) 12%, transparent);
+    --naranja-suave: color-mix(in srgb, var(--naranja) 40%, transparent);
 
     --fuente-titulo: "Orbitron", "Segoe UI", Arial, sans-serif;
     --fuente-ui: "Rajdhani", "Segoe UI", Arial, sans-serif;
@@ -35,6 +39,7 @@
 html {
     min-height: 100%;
     background: var(--fondo);
+    overscroll-behavior: none;
 }
 
 /* ---------- Cuerpo y fondo (rejilla en perspectiva) ---------- */
@@ -53,7 +58,7 @@ body {
     color: var(--texto);
     text-align: center;
     background:
-        radial-gradient(ellipse at 50% 0%, rgba(0, 240, 255, 0.16), transparent 55%),
+        radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--cian) 16%, transparent), transparent 55%),
         var(--fondo);
 }
 
@@ -113,7 +118,7 @@ h1 {
         0 0 4px #fff,
         0 0 12px var(--cian),
         0 0 28px var(--cian),
-        0 0 60px rgba(0, 240, 255, 0.6);
+        0 0 60px color-mix(in srgb, var(--cian) 60%, transparent);
     animation: encendido 1.6s ease-out both;
 }
 
@@ -191,15 +196,15 @@ main {
     background:
         linear-gradient(var(--cian-tenue) 1px, transparent 1px),
         linear-gradient(90deg, var(--cian-tenue) 1px, transparent 1px),
-        #01090f;
+        var(--fondo-canvas);
     background-size: 20px 20px;
     border: 2px solid var(--cian);
     border-radius: 2px;
     box-shadow:
         0 0 8px var(--cian),
         0 0 28px var(--cian-suave),
-        0 0 70px rgba(0, 240, 255, 0.18),
-        inset 0 0 30px rgba(0, 240, 255, 0.18);
+        0 0 70px color-mix(in srgb, var(--cian) 18%, transparent),
+        inset 0 0 30px color-mix(in srgb, var(--cian) 18%, transparent);
     animation: pulso-borde 3.4s ease-in-out infinite;
 }
 
@@ -221,7 +226,7 @@ button {
     font-family: var(--fuente-titulo);
     font-weight: 700;
     color: var(--cian);
-    background: rgba(0, 240, 255, 0.06);
+    background: color-mix(in srgb, var(--cian) 6%, transparent);
     border: 1px solid var(--cian);
     cursor: pointer;
     text-shadow: 0 0 8px var(--cian-suave);
@@ -292,9 +297,9 @@ button:focus-visible {
 .acciones button:last-child {
     color: var(--naranja);
     border-color: var(--naranja);
-    background: rgba(255, 122, 26, 0.06);
+    background: color-mix(in srgb, var(--naranja) 6%, transparent);
     text-shadow: 0 0 8px var(--naranja-suave);
-    box-shadow: 0 0 10px rgba(255, 122, 26, 0.12), inset 0 0 10px rgba(255, 122, 26, 0.12);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--naranja) 12%, transparent), inset 0 0 10px color-mix(in srgb, var(--naranja) 12%, transparent);
 }
 
 .acciones button:last-child:hover {
@@ -314,15 +319,15 @@ button:focus-visible {
         box-shadow:
             0 0 8px var(--cian),
             0 0 28px var(--cian-suave),
-            0 0 70px rgba(0, 240, 255, 0.18),
-            inset 0 0 30px rgba(0, 240, 255, 0.18);
+            0 0 70px color-mix(in srgb, var(--cian) 18%, transparent),
+            inset 0 0 30px color-mix(in srgb, var(--cian) 18%, transparent);
     }
     50% {
         box-shadow:
             0 0 12px var(--cian),
-            0 0 40px rgba(0, 240, 255, 0.55),
-            0 0 95px rgba(0, 240, 255, 0.28),
-            inset 0 0 40px rgba(0, 240, 255, 0.26);
+            0 0 40px color-mix(in srgb, var(--cian) 55%, transparent),
+            0 0 95px color-mix(in srgb, var(--cian) 28%, transparent),
+            inset 0 0 40px color-mix(in srgb, var(--cian) 26%, transparent);
     }
 }
 
@@ -391,5 +396,135 @@ button {
         width: 76px;
         height: 76px;
         font-size: 1.9rem;
+    }
+}
+
+/* ==========================================================
+   Atajos de teclado (solo se ven donde hay teclado)
+   ========================================================== */
+.atajo {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--fuente-ui);
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.ayuda-teclas {
+    max-width: var(--lado-juego);
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    color: var(--texto-apagado);
+}
+
+/* En celulares y tabletas se conservan solo los botones táctiles */
+@media (pointer: coarse) {
+    .atajo,
+    .ayuda-teclas {
+        display: none;
+    }
+}
+
+/* ==========================================================
+   Diálogo del nombre del jugador (sobre el tablero)
+   ========================================================== */
+.dialogo {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--lado-juego);
+    height: var(--lado-juego);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    background: rgba(2, 6, 13, 0.82);
+    backdrop-filter: blur(3px);
+    z-index: 5;
+}
+
+.dialogo[hidden] {
+    display: none;
+}
+
+.dialogo-caja {
+    width: min(100%, 360px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 18px;
+    background: var(--panel);
+    border: 1px solid var(--cian);
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    box-shadow: inset 0 0 24px var(--cian-tenue);
+}
+
+.dialogo-caja h2 {
+    font-family: var(--fuente-titulo);
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    color: var(--cian);
+    text-shadow: 0 0 10px var(--cian);
+}
+
+.dialogo-caja p {
+    font-size: 1rem;
+    color: var(--texto-apagado);
+}
+
+.dialogo-caja input {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: var(--fuente-ui);
+    font-size: 1.2rem;           /* 16 px o más: evita el zoom automático en iPhone */
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.08em;
+    color: var(--texto);
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid var(--cian);
+    border-radius: 0;
+    outline: none;
+}
+
+.dialogo-caja input:focus {
+    box-shadow: 0 0 14px var(--cian-suave);
+}
+
+.dialogo-caja .dialogo-error {
+    min-height: 1.2em;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--naranja);
+}
+
+.dialogo-botones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.dialogo-botones button {
+    flex: 1 1 120px;
+    min-height: 48px;           /* cómodo para el dedo */
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+}
+
+.dialogo-botones button[hidden] {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .dialogo-caja h2 {
+        font-size: 1rem;
     }
 }

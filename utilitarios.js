@@ -38,3 +38,15 @@ function formatearTiempo(totalSegundos) {
 
     return minutos + ":" + segundos;
 }
+
+// 🔐 HUELLA DE TEXTO: convierte un texto en un número (algoritmo FNV-1a de 32 bits).
+// Sirve para comparar una secuencia sin escribirla literalmente en el código.
+// Ojo: es ofuscación, no seguridad. Cualquier código que corre en el navegador puede inspeccionarse.
+function huellaTexto(texto) {
+    let h = 2166136261;
+    for (let i = 0; i < texto.length; i++) {
+        h = h ^ texto.charCodeAt(i);
+        h = Math.imul(h, 16777619) >>> 0;
+    }
+    return h >>> 0;
+}
